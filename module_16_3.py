@@ -12,12 +12,12 @@ class UserModel(BaseModel):
 # Начальный словарь пользователей
 users_db: Dict[str, str] = {'1': 'Имя: Example, возраст: 18'}
 
-@app.get('/users')  # Исправлено: добавлен правильный декоратор
+@app.get('/users')  
 async def get_users():
     return users_db
 
 # POST-запрос (новый пользователь)
-@app.post('/user/{username}/{age}')  # Исправлено: добавлен правильный декоратор
+@app.post('/user/{username}/{age}')  
 async def create_new_user(
         username: str = Path(..., min_length=4, max_length=20, description="Имя пользователя"),
         age: int = Path(..., ge=18, le=120, description="Возраст пользователя")
@@ -30,7 +30,7 @@ async def create_new_user(
     users_db[user_id] = f'Имя: {username}, возраст: {age}'
     return f'User {user_id} is registered'
 
-@app.put('/user/{user_id}/{username}/{age}')  # Исправлено: добавлен правильный декоратор
+@app.put('/user/{user_id}/{username}/{age}')  
 async def update_user(
         user_id: str = Path(..., title="Update ID of the user"),
         username: str = Path(..., min_length=4, max_length=20, description="Имя добавленного пользователя"),
@@ -47,7 +47,7 @@ async def update_user(
     users_db[user_id] = f'Имя: {username}, возраст: {age}'
     return f'User {user_id} has been updated'
 
-@app.delete('/user/{user_id}')  # Исправлено: добавлен правильный декоратор
+@app.delete('/user/{user_id}') 
 async def delete_user(user_id: str = Path(...)):
     # Проверка существования пользователя
     if user_id not in users_db:
@@ -57,6 +57,6 @@ async def delete_user(user_id: str = Path(...)):
     del users_db[user_id]
     return f'User {user_id} has been deleted'
 
-@app.get('/users')  # Исправлено: добавлен правильный декоратор
+@app.get('/users')  
 async def get_users_after_delete():
     return users_db
